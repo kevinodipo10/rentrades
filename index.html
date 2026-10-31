@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ren Trades | SMC & MSnR Trading Ecosystem</title>
+    
+    <!-- Favicon Reference (as requested for logo.png in root) -->
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="shortcut icon" href="logo.png" type="image/png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#FF1E42',
+                            crimson: '#D90429',
+                            darkRed: '#800020',
+                            neon: '#FF3355',
+                            dark: '#0A0A0E',
+                            card: '#12121A'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
+                    animation: {
+                        'glow-pulse': 'glow 3s infinite alternate',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        glow: {
+                            '0%': { boxShadow: '0 0 15px rgba(255, 30, 66, 0.3), inset 0 0 15px rgba(255, 30, 66, 0.1)' },
+                            '100%': { boxShadow: '0 0 35px rgba(255, 30, 66, 0.7), inset 0 0 25px rgba(255, 30, 66, 0.3)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS for Glassmorphism & Neon Effects -->
+    <style>
+        body {
+            background-color: #060608;
+            color: #F3F4F6;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(18, 18, 26, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-panel-glow {
+            background: rgba(22, 16, 24, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 30, 66, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(255, 30, 66, 0.12);
+        }
+
+        .glass-modal {
+            background: rgba(10, 10, 14, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 30, 66, 0.3);
+        }
+
+        /* Text Gradients */
+        .text-gradient-red {
+            background: linear-gradient(135deg, #FFFFFF 0%, #FF6B81 50%, #FF1E42 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient-gold {
+            background: linear-gradient(135deg, #FFF 0%, #F59E0B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .neon-border {
+            position: relative;
+        }
+        .neon-border::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(90deg, #FF1E42, transparent, #FF1E42);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+        .neon-border:hover::after {
+            opacity: 1;
+        }
+
+        /* Ambient Glow Backgrounds */
+        .ambient-glow-red {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(255, 30, 66, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .ambient-glow-purple {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(128, 0, 32, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0A0E;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2A1018;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 30, 66, 0.3);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF1E42;
+        }
+    </style>
+</head>
+<body class="relative">
+
+    <!-- Ambient Glowing Orbs -->
+    <div class="ambient-glow-red top-10 -left-20"></div>
+    <div class="ambient-glow-purple top-[30%] -right-20"></div>
+    <div class="ambient-glow-red top-[70%] left-1/3"></div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="fixed top-0 left-0 w-full z-40 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="glass-panel rounded-2xl px-6 py-3 flex items-center justify-between border border-white/10 shadow-2xl">
+                
+                <!-- BRAND LOGO -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-darkRed via-brand-red to-white p-[1px] flex items-center justify-center shadow-[0_0_15px_rgba(255,30,66,0.5)] group-hover:shadow-[0_0_25px_rgba(255,30,66,0.8)] transition-all duration-300">
+                        <div class="w-full h-full bg-black rounded-[11px] flex items-center justify-center">
+                            <span class="font-mono text-xl font-bold tracking-tighter text-white">R<span class="text-brand-red">T</span></span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xl font-extrabold tracking-wider text-white font-mono flex items-center gap-1">
+                            REN<span class="text-brand-red">TRADES</span>
+                            <span class="w-2 h-2 rounded-full bg-brand-red animate-ping"></span>
+                        </span>
+                        <span class="text-[9px] uppercase tracking-widest text-gray-400 -mt-1 font-semibold">SMC / MSnR Institutional</span>
+                    </div>
+                </a>
+
+                <!-- DESKTOP NAV -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+                    <a href="#about" class="hover:text-brand-red transition-colors flex items-center gap-1.5"><i class="fa-solid fa-user-astronaut text-xs text-brand-red"></i> About Ren</a>
+                    <a href="#tiers" class="hover:text-brand-red transition-colors flex items-center gap-1.5"><i class="fa-solid fa-layer-group text-xs text-brand-red"></i> Trading Suite</a>
+                    <a href="#results" class="hover:text-brand-red transition-colors flex items-center gap-1.5"><i class="fa-solid fa-chart-line text-xs text-brand-red"></i> Edge & Metrics</a>
+                    <a href="#community" class="hover:text-brand-red transition-colors flex items-center gap-1.5"><i class="fa-brands fa-telegram text-xs text-brand-red"></i> Community</a>
+                </nav>
+
+                <!-- CTA BUTTON -->
+                <div class="hidden sm:flex items-center gap-4">
+                    <a href="#tiers" class="relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-bold text-white transition-all duration-300 bg-gradient-to-r from-brand-red to-brand-crimson rounded-xl shadow-[0_0_20px_rgba(255,30,66,0.4)] hover:shadow-[0_0_30px_rgba(255,30,66,0.7)] hover:scale-105 active:scale-95">
+                        <span>Apply For Access</span>
+                        <i class="fa-solid fa-arrow-right-long ml-2 text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- MOBILE MENU BUTTON -->
+                <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-white text-2xl focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV DROPDOWN -->
+        <div id="mobileMenu" class="hidden md:hidden max-w-7xl mx-auto px-4 mt-2">
+            <div class="glass-panel-glow rounded-2xl p-6 flex flex-col gap-4 border border-brand-red/30 text-center">
+                <a href="#about" class="text-gray-200 hover:text-brand-red py-2 border-b border-white/5">About Ren</a>
+                <a href="#tiers" class="text-gray-200 hover:text-brand-red py-2 border-b border-white/5">Trading Suite Tiers</a>
+                <a href="#results" class="text-gray-200 hover:text-brand-red py-2 border-b border-white/5">Performance Metrics</a>
+                <a href="#community" class="text-gray-200 hover:text-brand-red py-2 border-b border-white/5">Telegram Channels</a>
+                <a href="#tiers" class="mt-2 w-full py-3 bg-brand-red text-white font-bold rounded-xl shadow-[0_0_15px_rgba(255,30,66,0.5)]">Apply Now</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- HERO TEXT CONTENT -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel border border-brand-red/40 text-brand-red text-xs font-semibold uppercase tracking-widest animate-pulse">
+                        <i class="fa-solid fa-gem text-xs"></i> Executive Female Trader & Strategist
+                    </div>
+
+                    <h1 class="text-4xl sm:text-6xl font-extrabold leading-tight tracking-tight text-white">
+                        Precision Execution. <br>
+                        <span class="text-gradient-red">Institutional SMC & MSnR</span> Mastery.
+                    </h1>
+
+                    <p class="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
+                        Operated by <strong class="text-white font-semibold">Ren Trades</strong> — an elite SMC/MSnR trader with 3+ consecutive years of verified profitability. Elevate your capital deployment with bespoke 1-on-1 mentorship, proprietary indicators, and high-tier copy trading.
+                    </p>
+
+                    <!-- QUICK METRICS -->
+                    <div class="grid grid-cols-3 gap-4 py-4 max-w-lg mx-auto lg:mx-0">
+                        <div class="glass-panel p-4 rounded-xl border border-white/5 text-center">
+                            <span class="block text-2xl sm:text-3xl font-extrabold text-white font-mono">3+ Yrs</span>
+                            <span class="text-xs text-gray-400 uppercase tracking-wider">Profitable Edge</span>
+                        </div>
+                        <div class="glass-panel p-4 rounded-xl border border-white/5 text-center">
+                            <span class="block text-2xl sm:text-3xl font-extrabold text-brand-red font-mono">50/50</span>
+                            <span class="text-xs text-gray-400 uppercase tracking-wider">Copy Profit Split</span>
+                        </div>
+                        <div class="glass-panel p-4 rounded-xl border border-white/5 text-center">
+                            <span class="block text-2xl sm:text-3xl font-extrabold text-white font-mono">&lt;1.0%</span>
+                            <span class="text-xs text-gray-400 uppercase tracking-wider">Max Drawdown</span>
+                        </div>
+                    </div>
+
+                    <!-- HERO CTAS -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#tiers" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-brand-red via-brand-crimson to-brand-darkRed text-white font-bold text-base shadow-[0_0_25px_rgba(255,30,66,0.5)] hover:shadow-[0_0_40px_rgba(255,30,66,0.8)] transition-all duration-300 transform hover:-translate-y-0.5 text-center">
+                            Explore Trading Suite <i class="fa-solid fa-chevron-right ml-2 text-xs"></i>
+                        </a>
+                        <a href="https://t.me/Rentradesofficial" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-panel text-white font-semibold text-base border border-white/10 hover:border-brand-red/50 hover:bg-white/5 transition-all text-center flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-telegram text-brand-red text-lg"></i> Telegram Channel
+                        </a>
+                    </div>
+                </div>
+
+                <!-- HERO IMAGE / CARD DISPLAY -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <!-- Glowing backdrop ring -->
+                        <div class="absolute -inset-1.5 bg-gradient-to-r from-brand-red to-purple-800 rounded-3xl blur-xl opacity-60 animate-glow-pulse"></div>
+                        
+                        <!-- Main Card -->
+                        <div class="relative glass-panel rounded-3xl p-3 border border-brand-red/30 overflow-hidden shadow-2xl">
+                            <div class="relative h-[480px] w-full rounded-2xl overflow-hidden group">
+                                <img src="ren3.jpg" alt="Ren Trades Founder" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x800/1a0910/ffffff?text=Ren+Trades+Founder'">
+                                
+                                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                                
+                                <!-- Floating Badge Top Right -->
+                                <div class="absolute top-4 right-4 glass-panel px-3 py-1.5 rounded-full border border-brand-red/50 text-xs text-white font-mono flex items-center gap-2 shadow-lg">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    MSnR Strategy Live
+                                </div>
+
+                                <!-- Floating Bottom Card Overlay -->
+                                <div class="absolute bottom-4 left-4 right-4 glass-panel p-4 rounded-xl border border-white/10 backdrop-blur-md">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h3 class="text-lg font-bold text-white flex items-center gap-1.5">
+                                                Ren Trades <i class="fa-solid fa-circle-check text-brand-red text-xs"></i>
+                                            </h3>
+                                            <p class="text-xs text-gray-300 font-mono">Senior Market Analyst & Trader</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="text-xs uppercase text-gray-400 tracking-wider">Status</span>
+                                            <span class="block text-xs font-bold text-emerald-400">Accepting Clients</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Floating Stat Badge Bottom Left -->
+                        <div class="absolute -bottom-6 -left-6 hidden sm:flex glass-panel-glow p-4 rounded-2xl border border-brand-red/40 animate-float items-center gap-3 shadow-2xl z-20">
+                            <div class="w-10 h-10 rounded-xl bg-brand-red/20 flex items-center justify-center text-brand-red text-xl font-bold">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-gray-400 block font-mono">Prop Firm Challenge</span>
+                                <span class="text-sm font-bold text-white">Full Assistance Included</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT REN TRADES SECTION -->
+    <section id="about" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel rounded-3xl p-8 md:p-12 border border-white/10 relative overflow-hidden">
+                <div class="grid md:grid-cols-12 gap-8 items-center">
+                    
+                    <!-- Portrait Grid -->
+                    <div class="md:col-span-5 grid grid-cols-2 gap-4">
+                        <div class="relative rounded-2xl overflow-hidden border border-brand-red/30 h-64 group shadow-lg">
+                            <img src="ren1.jpg" alt="Ren Trades" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/400x500/100508/ffffff?text=Ren+Trades'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                            <span class="absolute bottom-3 left-3 text-xs text-white font-mono font-semibold">Mindset & Focus</span>
+                        </div>
+                        <div class="relative rounded-2xl overflow-hidden border border-brand-red/30 h-64 mt-6 group shadow-lg">
+                            <img src="ren2.jpg" alt="Ren Trades Strategy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/400x500/100508/ffffff?text=Ren+Trades+2'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                            <span class="absolute bottom-3 left-3 text-xs text-white font-mono font-semibold">Execution Edge</span>
+                        </div>
+                    </div>
+
+                    <!-- Narrative -->
+                    <div class="md:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 text-brand-red text-xs font-mono tracking-widest uppercase font-bold">
+                            <i class="fa-solid fa-crown"></i> The Mind Behind The Charts
+                        </div>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+                            Mastering Market Structure & <span class="text-gradient-red">Smart Money Liquidity</span>
+                        </h2>
+                        <p class="text-gray-300 leading-relaxed font-light">
+                            Trading is not about guessing direction — it's about identifying institutional liquidity grabs, market structure shifts, and micro-engineered entry points. With over <strong class="text-white">3 years of continuous profitable execution</strong>, Ren has perfected the **SMS/MSnR Strategy** (Smart Money Structure / Market Support & Resistance).
+                        </p>
+                        
+                        <div class="grid sm:grid-cols-2 gap-4 pt-2">
+                            <div class="glass-panel p-4 rounded-xl border-l-4 border-brand-red">
+                                <h4 class="font-bold text-white text-sm">Strict Capital Preservation</h4>
+                                <p class="text-xs text-gray-400 mt-1">Focusing on maximum risk-to-reward parameters while capping drawdowns to tight 0.5%–1% margins.</p>
+                            </div>
+                            <div class="glass-panel p-4 rounded-xl border-l-4 border-brand-red">
+                                <h4 class="font-bold text-white text-sm">Female Financial Leadership</h4>
+                                <p class="text-xs text-gray-400 mt-1">Empowering institutional-grade mindset in a field dominated by retail noise.</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 flex flex-wrap items-center gap-6 text-sm text-gray-400 font-mono">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-red"></i> 100% Invite-Only Ecosystem</span>
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-red"></i> Verified Track Record</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES & TIERS OF ENGAGEMENT -->
+    <section id="tiers" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- SECTION HEADER -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-panel border border-brand-red/30 text-brand-red text-xs font-mono uppercase tracking-widest">
+                    <i class="fa-solid fa-cubes"></i> Select Your Tier
+                </div>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white">
+                    The Ren Trades <span class="text-gradient-red">Ecosystem Suite</span>
+                </h2>
+                <p class="text-gray-400 text-sm sm:text-base font-light">
+                    Every tier is strictly invite-only to preserve quality, execution standards, and direct personal oversight. Select your desired path to apply.
+                </p>
+            </div>
+
+            <!-- TIERS GRID -->
+            <div class="grid lg:grid-cols-3 gap-8 items-stretch">
+
+                <!-- TIER 1: MENTORSHIP -->
+                <div class="glass-panel rounded-3xl p-8 border border-white/10 hover:border-brand-red/50 transition-all duration-300 flex flex-col justify-between relative group hover:shadow-[0_0_30px_rgba(255,30,66,0.2)]">
+                    <div class="absolute -top-3 right-6 bg-gradient-to-r from-brand-red to-brand-crimson text-white text-[10px] font-mono font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">
+                        Strictly 3 Spots / Mo
+                    </div>
+                    
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-brand-red/10 border border-brand-red/30 flex items-center justify-center text-brand-red text-2xl mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                        <span class="text-xs font-mono uppercase tracking-widest text-brand-red font-bold">Tier 01</span>
+                        <h3 class="text-2xl font-bold text-white mt-1 mb-2">1-on-1 World Class Mentorship</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed mb-6">
+                            Direct 2-month intensive training program mastering the proprietary "SMS/MSnR Strategy" with full personalized supervision.
+                        </p>
+
+                        <div class="py-4 border-y border-white/10 mb-6">
+                            <div class="text-xs text-gray-400 uppercase tracking-wider font-mono">Tuition Investment</div>
+                            <div class="text-2xl font-extrabold text-white font-mono mt-0.5">$200 – $10,000 <span class="text-xs text-gray-400 font-sans font-normal">/ 2 Months</span></div>
+                        </div>
+
+                        <ul class="space-y-3 text-xs text-gray-300 mb-8 font-light">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-brand-red mt-0.5"></i>
+                                <span>Complete SMS/MSnR Strategy Mastery</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-brand-red mt-0.5"></i>
+                                <span>Direct Personal Oversight by Ren Trades</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-brand-red mt-0.5"></i>
+                                <span>Portfolio Vetting & Risk Management Blueprint</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-brand-red mt-0.5"></i>
+                                <span>Prop Firm Challenge Passing Assistance</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-brand-red mt-0.5"></i>
+                                <span>Private Direct Communication Line</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button onclick="openModal('mentorship')" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-red to-brand-crimson text-white font-bold text-sm shadow-[0_0_15px_rgba(255,30,66,0.4)] hover:shadow-[0_0_25px_rgba(255,30,66,0.7)] transition-all flex items-center justify-center gap-2">
+                        <span>Apply For Mentorship</span>
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- TIER 2: INDICATORS (HIGHLIGHTED) -->
+                <div class="glass-panel-glow rounded-3xl p-8 border-2 border-brand-red relative flex flex-col justify-between transform lg:-translate-y-4 shadow-[0_0_35px_rgba(255,30,66,0.25)]">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-white text-black font-bold text-[10px] font-mono uppercase tracking-widest px-4 py-1 rounded-full shadow-lg flex items-center gap-1">
+                        <i class="fa-solid fa-fire text-brand-red"></i> Most Popular
+                    </div>
+
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-brand-red/20 border border-brand-red flex items-center justify-center text-brand-red text-2xl mb-6 shadow-[0_0_15px_rgba(255,30,66,0.5)]">
+                            <i class="fa-solid fa-sliders"></i>
+                        </div>
+                        <span class="text-xs font-mono uppercase tracking-widest text-brand-red font-bold">Tier 02</span>
+                        <h3 class="text-2xl font-bold text-white mt-1 mb-2">Customized Indicator Suite</h3>
+                        <p class="text-gray-300 text-xs leading-relaxed mb-6">
+                            Bespoke in-house TradingView indicator suite engineered specifically for struggling traders and beginners seeking precision.
+                        </p>
+
+                        <div class="py-4 border-y border-white/10 mb-6">
+                            <div class="text-xs text-gray-400 uppercase tracking-wider font-mono">Subscription Access</div>
+                            <div class="text-2xl font-extrabold text-white font-mono mt-0.5">From $100 <span class="text-xs text-gray-400 font-sans font-normal">/ Month – Yearly Plans</span></div>
+                        </div>
+
+                        <ul class="space-y-3 text-xs text-gray-200 mb-8 font-light">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-bolt text-brand-red mt-0.5"></i>
+                                <span><strong>Precise Entry Signal Alerts:</strong> Real-time non-repainting triggers</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-bolt text-brand-red mt-0.5"></i>
+                                <span><strong>Dynamic Stop Loss (SL) Calculation:</strong> Volatility-adjusted risk</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-bolt text-brand-red mt-0.5"></i>
+                                <span><strong>Multi-Target Take Profit (TP) Levels:</strong> Optimized TP1, TP2, TP3</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-bolt text-brand-red mt-0.5"></i>
+                                <span><strong>Automated Break-Even (BE) Triggers:</strong> Lock in profits seamlessly</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button onclick="openModal('indicators')" class="w-full py-3.5 rounded-xl bg-white text-black hover:bg-gray-200 font-extrabold text-sm shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all flex items-center justify-center gap-2">
+                        <span>Apply For Indicator Access</span>
+                        <i class="fa-solid fa-key text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- TIER 3: COPY TRADING -->
+                <div class="glass-panel rounded-3xl p-8 border border-white/10 hover:border-brand-red/50 transition-all duration-300 flex flex-col justify-between relative group hover:shadow-[0_0_30px_rgba(255,30,66,0.2)]">
+                    <div class="absolute -top-3 right-6 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-mono font-bold uppercase tracking-widest px-3 py-1 rounded-full backdrop-blur-md">
+                        Automated Hands-Off
+                    </div>
+
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-brand-red/10 border border-brand-red/30 flex items-center justify-center text-brand-red text-2xl mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <span class="text-xs font-mono uppercase tracking-widest text-brand-red font-bold">Tier 03</span>
+                        <h3 class="text-2xl font-bold text-white mt-1 mb-2">Institutional Copy Trading</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed mb-6">
+                            Fully automated execution system for capital owners & investors seeking effortless market exposure without manual trading.
+                        </p>
+
+                        <div class="py-4 border-y border-white/10 mb-6">
+                            <div class="text-xs text-gray-400 uppercase tracking-wider font-mono">Performance Terms</div>
+                            <div class="text-2xl font-extrabold text-white font-mono mt-0.5">50 / 50 <span class="text-xs text-gray-400 font-sans font-normal">Profit Split</span></div>
+                        </div>
+
+                        <ul class="space-y-3 text-xs text-gray-300 mb-8 font-light">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-brand-red mt-0.5"></i>
+                                <span><strong>Zero Manual Intervention Needed:</strong> Complete sync</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-brand-red mt-0.5"></i>
+                                <span><strong>0.5% - 1.0% Low Drawdown Limit:</strong> Strict risk control</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-brand-red mt-0.5"></i>
+                                <span>Priority Vetted High-Capital Access Only</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-brand-red mt-0.5"></i>
+                                <span>Transparent Verified Trading Terminal</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button onclick="openModal('copytrading')" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-red to-brand-crimson text-white font-bold text-sm shadow-[0_0_15px_rgba(255,30,66,0.4)] hover:shadow-[0_0_25px_rgba(255,30,66,0.7)] transition-all flex items-center justify-center gap-2">
+                        <span>Apply For Copy Trading</span>
+                        <i class="fa-solid fa-chart-pie text-xs"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- TRADING EDGE & METRICS -->
+    <section id="results" class="py-20 relative border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-6 space-y-6">
+                    <div class="inline-flex items-center gap-2 text-brand-red text-xs font-mono uppercase tracking-widest font-bold">
+                        <i class="fa-solid fa-microchip"></i> System Architecture
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+                        Why the <span class="text-gradient-red">SMS / MSnR Strategy</span> Outperforms Standard Indicators
+                    </h2>
+                    <p class="text-gray-300 text-sm sm:text-base font-light leading-relaxed">
+                        Most retail traders fail because they buy at resistance and sell at support. The Ren Trades methodology systematically tracks where liquidity pool concentrations reside prior to news breakouts and market shifts.
+                    </p>
+
+                    <div class="space-y-4 pt-2">
+                        <div class="glass-panel p-4 rounded-2xl border border-white/10 flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-brand-red/20 text-brand-red flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-bullseye text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-sm">High RR Ratio Targeting</h4>
+                                <p class="text-xs text-gray-400 mt-0.5">Asymmetric risk profiles allowing accounts to expand rapidly even during standard market consolidations.</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel p-4 rounded-2xl border border-white/10 flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-brand-red/20 text-brand-red flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-lock text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-sm">Cap Protection Safeguard</h4>
+                                <p class="text-xs text-gray-400 mt-0.5">Automated Break-Even management and fractional profit scaling at strict liquidity targets.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- METRICS CARD DISPLAY -->
+                <div class="lg:col-span-6">
+                    <div class="glass-panel-glow rounded-3xl p-8 border border-brand-red/40 space-y-6 shadow-2xl">
+                        <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-sliders text-brand-red"></i> Risk & Performance Controls
+                            </h3>
+                            <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/30">Verified Edge</span>
+                        </div>
+
+                        <div class="space-y-4 font-mono">
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-gray-400">Average Risk-To-Reward</span>
+                                    <span class="text-white font-bold">1 : 4.5+</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-brand-red to-brand-neon h-full w-[85%]"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-gray-400">Max Portfolio Drawdown Cap</span>
+                                    <span class="text-emerald-400 font-bold">&lt; 1.0% Per Trade</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-emerald-500 h-full w-[25%]"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-gray-400">Prop Firm Pass Guarantee Rate</span>
+                                    <span class="text-white font-bold">High Precision</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-brand-red to-brand-crimson h-full w-[92%]"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-black/40 border border-white/5 text-xs text-gray-400 flex items-center justify-between">
+                            <span>Interested in seeing live proof?</span>
+                            <a href="https://t.me/Rentradesofficial" target="_blank" class="text-brand-red hover:underline font-semibold flex items-center gap-1">
+                                Join Public Telegram <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL & COMMUNITY HUBS -->
+    <section id="community" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-red text-xs font-mono uppercase tracking-widest font-bold">Direct Channels</span>
+                <h2 class="text-3xl font-extrabold text-white mt-2">Connect With Ren Trades</h2>
+                <p class="text-gray-400 text-sm mt-2">Stay updated with free breakdowns, market analysis, and public copy trading announcements.</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Main Telegram -->
+                <a href="https://t.me/Rentradesofficial" target="_blank" class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-brand-red/60 transition-all text-center group hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-brands fa-telegram"></i>
+                    </div>
+                    <h4 class="font-bold text-white text-base">Main Telegram</h4>
+                    <p class="text-xs text-gray-400 mt-1">Daily Market Signals & Breakdowns</p>
+                    <span class="inline-block mt-4 text-xs font-mono text-brand-red font-bold group-hover:underline">Join Channel &rarr;</span>
+                </a>
+
+                <!-- Copy Trading Telegram -->
+                <a href="https://t.me/+7zQXfNr68wlmOWE0" target="_blank" class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-brand-red/60 transition-all text-center group hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h4 class="font-bold text-white text-base">Copy Trading Hub</h4>
+                    <p class="text-xs text-gray-400 mt-1">Public Copy Trading Channel</p>
+                    <span class="inline-block mt-4 text-xs font-mono text-emerald-400 font-bold group-hover:underline">Join Investor Hub &rarr;</span>
+                </a>
+
+                <!-- TikTok Main -->
+                <a href="https://www.tiktok.com/@ren.trades1?_r=1&_t=ZS-9B1D6q3fEYu" target="_blank" class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-brand-red/60 transition-all text-center group hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-pink-500/10 text-pink-400 flex items-center justify-center text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </div>
+                    <h4 class="font-bold text-white text-base">TikTok Official</h4>
+                    <p class="text-xs text-gray-400 mt-1">Main Account Clips & Tips</p>
+                    <span class="inline-block mt-4 text-xs font-mono text-pink-400 font-bold group-hover:underline">Follow @ren.trades1 &rarr;</span>
+                </a>
+
+                <!-- TikTok Backup -->
+                <a href="https://www.tiktok.com/@ren.trades_2?_r=1&_t=ZS-9B1DD6TSuU0" target="_blank" class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-brand-red/60 transition-all text-center group hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-video"></i>
+                    </div>
+                    <h4 class="font-bold text-white text-base">TikTok Backup</h4>
+                    <p class="text-xs text-gray-400 mt-1">Secondary Trading Log</p>
+                    <span class="inline-block mt-4 text-xs font-mono text-purple-400 font-bold group-hover:underline">Follow @ren.trades_2 &rarr;</span>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- WHATSAPP QUICK ACTION BAR -->
+    <section class="py-12 bg-gradient-to-r from-brand-dark flex justify-center items-center">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="glass-panel-glow p-8 rounded-3xl border border-brand-red/40 flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div class="text-left space-y-1">
+                    <h3 class="text-xl font-bold text-white">Have Direct Questions For Ren?</h3>
+                    <p class="text-xs text-gray-300">Reach out directly on WhatsApp for urgent client onboarding inquiries.</p>
+                </div>
+                <a href="https://wa.me/254712537542" target="_blank" class="px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm shadow-[0_0_20px_rgba(16,185,129,0.4)] transition-all flex items-center gap-2 shrink-0">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Chat +254 712 537 542</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER & CFD DISCLAIMER -->
+    <footer class="bg-black/90 pt-16 pb-12 border-t border-white/10 text-gray-400 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-brand-red flex items-center justify-center font-mono font-bold text-white text-sm">RT</div>
+                    <span class="font-mono text-lg font-bold text-white">REN<span class="text-brand-red">TRADES</span>.COM</span>
+                </div>
+                <p class="text-center md:text-right text-gray-500 text-xs">
+                    &copy; 2026 Ren Trades Ecosystem. All Rights Reserved. Operated by Ren Trades.
+                </p>
+            </div>
+
+            <!-- MANDATORY CFD RISK DISCLAIMER -->
+            <div class="p-6 rounded-2xl glass-panel border border-white/5 space-y-3 text-[11px] leading-relaxed text-gray-400 font-light">
+                <h5 class="text-gray-300 font-bold uppercase tracking-wider font-mono text-xs flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation text-brand-red"></i> Risk Warning & CFD Disclaimer
+                </h5>
+                <p>
+                    Trading Foreign Exchange (Forex), Contracts for Difference (CFDs), and leveraged financial instruments carries a high level of risk and may not be suitable for all investors. The high degree of leverage can work against you as well as for you. Before deciding to trade Forex/CFDs or engage in any services provided by Ren Trades (rentrades.com), you should carefully consider your investment objectives, level of experience, and risk appetite.
+                </p>
+                <p>
+                    There is a possibility that you could sustain a loss of some or all of your initial investment; therefore, you should not invest money that you cannot afford to lose. Past performance, backtested results, or signals provided by indicator suites do not guarantee future results. Ren Trades provides educational content, proprietary indicators, and copy trading access; however, clients are fully responsible for their capital management decisions.
+                </p>
+            </div>
+
+        </div>
+    </footer>
+
+
+    <!-- APPLICATION MODAL FUNNEL FOR ALL 3 TIERS -->
+    <div id="applicationModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="glass-modal rounded-3xl max-w-2xl w-full p-6 sm:p-8 relative max-h-[90vh] overflow-y-auto border border-brand-red/40 shadow-[0_0_50px_rgba(255,30,66,0.3)]">
+            
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Dynamic Header -->
+            <div class="mb-6 space-y-1">
+                <span id="modalTierBadge" class="text-xs font-mono font-bold text-brand-red uppercase tracking-widest">Application Questionnaire</span>
+                <h3 id="modalTitle" class="text-2xl font-bold text-white">Tier Application</h3>
+                <p class="text-xs text-gray-400">Fill in your qualification details below to request invite-only access directly to Ren Trades.</p>
+            </div>
+
+            <!-- FORMSUBMIT.CO FORM -->
+            <form action="https://formsubmit.co/chebetcaren621@gmail.com" method="POST" class="space-y-4">
+                
+                <!-- FormSubmit Configuration -->
+                <input type="hidden" name="_subject" id="formSubject" value="New Ren Trades Application">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="Tier Selected" id="selectedTierInput" value="General Application">
+
+                <!-- Applicant Personal Details -->
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-mono text-gray-300 mb-1">Full Name *</label>
+                        <input type="text" name="Full Name" required placeholder="e.g. Jane Doe" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-red transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-mono text-gray-300 mb-1">Email Address *</label>
+                        <input type="email" name="Email" required placeholder="jane@example.com" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-red transition-colors">
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-mono text-gray-300 mb-1">WhatsApp Number (with Country Code) *</label>
+                        <input type="text" name="WhatsApp Number" required placeholder="+1 234 567 8900" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-red transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-mono text-gray-300 mb-1">Country of Residence *</label>
+                        <input type="text" name="Country" required placeholder="e.g. Kenya, United States, UK" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-red transition-colors">
+                    </div>
+                </div>
+
+                <!-- Strategic Qualifying Questions -->
+                <div class="space-y-4 pt-2 border-t border-white/10">
+                    
+                    <div>
+                        <label class="block text-xs font-mono text-gray-300 mb-1">Capital / Budget Allocated For This Tier *</label>
+                        <select name="Budget / Capital" required class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-red transition-colors">
+                            <option value="" disabled selected>Select your range</option>
+                            <option value="$200 - $500">$200 – $500</option>
+                            <option value="$500 - $2,000">$500 – $2,000</option>
+                            <option value="$2,000 - $5,000">$2,000 – $5,000</option>
+                            <option value="$5,000 - $10,000+">$5,000 – $10,000+</option>
+                            <option value="$10,000+ High Capital Pool">$10,000+ (High Capital Access)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-mono text-gray-300 mb-1">Current Trading Experience Level *</label>
+                        <select name="Experience Level" required class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-red transition-colors">
+                            <option value="Complete Beginner">Complete Beginner (Seeking Guidance)</option>
+                            <option value="Struggling Trader">Struggling Trader (Inconsistent Profits)</option>
+                            <option value="Intermediate Trader">Intermediate Trader (Looking to Scale)</option>
+                            <option value="Capital Owner / Hands-off Investor">Capital Owner / Hands-Off Investor</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-mono text-gray-300 mb-1">What are your primary goals & expectations from Ren Trades? *</label>
+                        <textarea name="Client Goals and Expectations" rows="3" required placeholder="Describe your expectations, main challenges, and timeline..." class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-red transition-colors"></textarea>
+                    </div>
+
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-red via-brand-crimson to-brand-darkRed text-white font-extrabold text-sm shadow-[0_0_25px_rgba(255,30,66,0.5)] hover:shadow-[0_0_35px_rgba(255,30,66,0.8)] transition-all">
+                    Submit Invite Application To Ren Trades &rarr;
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT CONTROLS -->
+    <script>
+        // Dynamic Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Modal Sales Funnel Questionnaire Handling
+        const applicationModal = document.getElementById('applicationModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalTierBadge = document.getElementById('modalTierBadge');
+        const selectedTierInput = document.getElementById('selectedTierInput');
+        const formSubject = document.getElementById('formSubject');
+
+        const tierDetails = {
+            'mentorship': {
+                title: '1-on-1 World Class Mentorship Application',
+                badge: 'Tier 01: Mentorship Application ($200 - $10,000)',
+                subject: 'New Application: 1-on-1 Mentorship With Ren Trades'
+            },
+            'indicators': {
+                title: 'Custom Indicator Suite Access Application',
+                badge: 'Tier 02: Indicator Suite Application ($100/mo min)',
+                subject: 'New Application: Customized Trading Indicators'
+            },
+            'copytrading': {
+                title: 'Institutional Copy Trading Invite Application',
+                badge: 'Tier 03: 50/50 Copy Trading Application',
+                subject: 'New Application: Copy Trading Service'
+            }
+        };
+
+        function openModal(tierKey) {
+            const details = tierDetails[tierKey] || {
+                title: 'Ren Trades Access Application',
+                badge: 'Invite-Only Application',
+                subject: 'New Ecosystem Application'
+            };
+
+            modalTitle.innerText = details.title;
+            modalTierBadge.innerText = details.badge;
+            selectedTierInput.value = details.badge;
+            formSubject.value = details.subject;
+
+            applicationModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            applicationModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close Modal when clicking outside
+        applicationModal.addEventListener('click', (e) => {
+            if (e.target === applicationModal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
