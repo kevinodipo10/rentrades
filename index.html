@@ -122,7 +122,8 @@
         /* Ambient Glow Backgrounds */
         .ambient-glow-red {
             position: absolute;
-            width: 450px;
+            width: 100%;
+            max-width: 450px;
             height: 450px;
             background: radial-gradient(circle, rgba(255, 30, 66, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
             pointer-events: none;
@@ -131,7 +132,8 @@
 
         .ambient-glow-purple {
             position: absolute;
-            width: 500px;
+            width: 100%;
+            max-width: 500px;
             height: 500px;
             background: radial-gradient(circle, rgba(128, 0, 32, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
             pointer-events: none;
@@ -155,7 +157,7 @@
         }
     </style>
 </head>
-<body class="relative">
+<body class="relative max-w-full overflow-x-hidden">
 
     <!-- Ambient Glowing Orbs -->
     <div class="ambient-glow-red top-10 -left-20"></div>
@@ -164,8 +166,8 @@
 
     <!-- HEADER / NAVIGATION -->
     <header class="fixed top-0 left-0 w-full z-40 transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div class="glass-panel rounded-2xl px-6 py-3 flex items-center justify-between border border-white/10 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-4">
+            <div class="glass-panel rounded-2xl px-4 sm:px-6 py-3 flex items-center justify-between border border-white/10 shadow-2xl">
                 
                 <!-- BRAND LOGO -->
                 <a href="#" class="flex items-center gap-3 group">
@@ -219,38 +221,38 @@
     </header>
 
     <!-- HERO SECTION -->
-    <section class="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid lg:grid-cols-12 gap-12 items-center">
+    <section class="relative pt-28 pb-16 md:pt-44 md:pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 
                 <!-- HERO TEXT CONTENT -->
                 <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel border border-brand-red/40 text-brand-red text-xs font-semibold uppercase tracking-widest animate-pulse">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full glass-panel border border-brand-red/40 text-brand-red text-[11px] sm:text-xs font-semibold uppercase tracking-widest animate-pulse">
                         <i class="fa-solid fa-gem text-xs"></i> Executive Female Trader & Strategist
                     </div>
 
-                    <h1 class="text-4xl sm:text-6xl font-extrabold leading-tight tracking-tight text-white">
+                    <h1 class="text-3xl sm:text-6xl font-extrabold leading-tight tracking-tight text-white">
                         Precision Execution. <br>
                         <span class="text-gradient-red">Institutional SMC & MSnR</span> Mastery.
                     </h1>
 
-                    <p class="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
+                    <p class="text-gray-300 text-sm sm:text-lg max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
                         Operated by <strong class="text-white font-semibold">Ren Trades</strong> — an elite SMC/MSnR trader with 3+ consecutive years of verified profitability. Elevate your capital deployment with bespoke 1-on-1 mentorship, proprietary indicators, and high-tier copy trading.
                     </p>
 
                     <!-- QUICK METRICS -->
-                    <div class="grid grid-cols-3 gap-4 py-4 max-w-lg mx-auto lg:mx-0">
-                        <div class="glass-panel p-4 rounded-xl border border-white/5 text-center">
-                            <span class="block text-2xl sm:text-3xl font-extrabold text-white font-mono">3+ Yrs</span>
-                            <span class="text-xs text-gray-400 uppercase tracking-wider">Profitable Edge</span>
+                    <div class="grid grid-cols-3 gap-2 sm:gap-4 py-2 sm:py-4 max-w-lg mx-auto lg:mx-0">
+                        <div class="glass-panel p-2.5 sm:p-4 rounded-xl border border-white/5 text-center">
+                            <span class="block text-xl sm:text-3xl font-extrabold text-white font-mono">3+ Yrs</span>
+                            <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider block">Profitable Edge</span>
                         </div>
-                        <div class="glass-panel p-4 rounded-xl border border-white/5 text-center">
-                            <span class="block text-2xl sm:text-3xl font-extrabold text-brand-red font-mono">50/50</span>
-                            <span class="text-xs text-gray-400 uppercase tracking-wider">Copy Profit Split</span>
+                        <div class="glass-panel p-2.5 sm:p-4 rounded-xl border border-white/5 text-center">
+                            <span class="block text-xl sm:text-3xl font-extrabold text-brand-red font-mono">50/50</span>
+                            <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider block">Copy Profit Split</span>
                         </div>
-                        <div class="glass-panel p-4 rounded-xl border border-white/5 text-center">
-                            <span class="block text-2xl sm:text-3xl font-extrabold text-white font-mono">&lt;1.0%</span>
-                            <span class="text-xs text-gray-400 uppercase tracking-wider">Max Drawdown</span>
+                        <div class="glass-panel p-2.5 sm:p-4 rounded-xl border border-white/5 text-center">
+                            <span class="block text-xl sm:text-3xl font-extrabold text-white font-mono">&lt;1.0%</span>
+                            <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider block">Max Drawdown</span>
                         </div>
                     </div>
 
